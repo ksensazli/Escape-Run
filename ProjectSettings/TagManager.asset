@@ -6,8 +6,7 @@ TagManager:
   tags:
   - Ground
   - EndLine
-  - Positive
-  - Negative
+  - Gate
   layers:
   - Default
   - TransparentFX

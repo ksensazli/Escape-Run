@@ -22,7 +22,7 @@ public class playerControl : MonoBehaviour
 
     private List<GameObject> players = new List<GameObject>();
 
-    private void OnEnable() 
+    private void OnEnable()
     {
         gameManager.onLevelStart += startGame;
         _animator = GetComponentInChildren<Animator>();
@@ -30,31 +30,31 @@ public class playerControl : MonoBehaviour
         _countInfo.text = _playerCount.ToString();
     }
 
-    private void OnDisable() 
+    private void OnDisable()
     {
         gameManager.onLevelStart -= startGame;
     }
 
-    private void FixedUpdate() 
+    private void FixedUpdate()
     {
-        if(!_isStart)
+        if (!_isStart)
         {
             return;
         }
 
-        if(_isEndGame)
+        if (_isEndGame)
         {
             return;
         }
 
         movePlayer();
 
-        if(_playerCount <= 0)
+        if (_playerCount <= 0)
         {
             _isEndGame = true;
             _countInfo.enabled = false;
             _animator.SetTrigger("Dying");
-            DOVirtual.DelayedCall(4f, ()=>SceneManager.LoadScene(SceneManager.GetActiveScene().name));
+            DOVirtual.DelayedCall(4f, () => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
         }
     }
 
@@ -66,12 +66,12 @@ public class playerControl : MonoBehaviour
 
     private void movePlayer()
     {
-        if(_rigidBody.position.y >= -1f)
+        if (_rigidBody.position.y >= -1f)
         {
-            _forwardMoveAmount = Vector3.forward* _forwardSpeed;
+            _forwardMoveAmount = Vector3.forward * _forwardSpeed;
             Vector3 targetPosition = _rigidBody.transform.position + _forwardMoveAmount;
 
-            if(Input.GetMouseButton(0))
+            if (Input.GetMouseButton(0))
             {
                 targetPosition.x = 0;
                 targetPosition.x = _inputTouch.DragAmountX * _slideSpeed;
@@ -81,21 +81,21 @@ public class playerControl : MonoBehaviour
             _xPos = Mathf.Clamp(targetPosition.x, -3.5f, 3.5f);
 
             //Lerp is a function that allows us to go from one point to another on a linear scale at a given time.
-            Vector3 targetPositionLerp = new Vector3(Mathf.Lerp(_rigidBody.position.x,_xPos,Time.fixedDeltaTime * _lerpSpeed),
-            Mathf.Lerp(_rigidBody.position.y,targetPosition.y,Time.fixedDeltaTime * _lerpSpeed)
-            ,Mathf.Lerp(_rigidBody.position.z,targetPosition.z,Time.fixedDeltaTime * _lerpSpeed));
+            Vector3 targetPositionLerp = new Vector3(Mathf.Lerp(_rigidBody.position.x, _xPos, Time.fixedDeltaTime * _lerpSpeed),
+            Mathf.Lerp(_rigidBody.position.y, targetPosition.y, Time.fixedDeltaTime * _lerpSpeed)
+            , Mathf.Lerp(_rigidBody.position.z, targetPosition.z, Time.fixedDeltaTime * _lerpSpeed));
 
             _rigidBody.MovePosition(targetPositionLerp);
         }
         else
         {
-            DOVirtual.DelayedCall(1.5f, ()=>SceneManager.LoadScene(SceneManager.GetActiveScene().name));
+            DOVirtual.DelayedCall(1.5f, () => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
         }
     }
 
-    private void OnTriggerEnter(Collider other) 
+    private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "EndLine")
+        if (other.tag == "EndLine")
         {
             _isStart = false;
             _isEndGame = true;
@@ -104,25 +104,21 @@ public class playerControl : MonoBehaviour
             _animator.SetTrigger("Idle");
         }
 
-        if(other.tag == "Positive")
+        if (other.tag == "Gate")
         {
-            if(other.GetComponent<gateManager>().increaseAmount >= 0)
+            if (other.GetComponent<gateManager>().increaseAmount >= 0)
             {
-                for(int i = 0; i < other.GetComponent<gateManager>().increaseAmount; i++)
+                for (int i = 0; i < other.GetComponent<gateManager>().increaseAmount; i++)
                 {
                     _playerCount++;
                     GameObject tempClone = Instantiate(clonePlayer, transform);
-                    tempClone.transform.localPosition = new Vector3(Random.Range(-2,2), 0f, Random.Range(0,-3f));
+                    tempClone.transform.localPosition = new Vector3(Random.Range(-2, 2), 0f, Random.Range(0, -3f));
                     players.Add(tempClone);
                     tempClone.GetComponentInChildren<Animator>().SetTrigger("Run");
                 }
             }
-            _countInfo.text = _playerCount.ToString();
-        }
 
-        if(other.tag == "Negative")
-        {
-            if(other.GetComponent<gateManager>().increaseAmount < 0)
+            if (other.GetComponent<gateManager>().increaseAmount < 0)
             {
                 for (int i = 0; i < Mathf.Abs(other.GetComponent<gateManager>().increaseAmount); i++)
                 {
@@ -135,5 +131,19 @@ public class playerControl : MonoBehaviour
 
             _countInfo.text = _playerCount.ToString();
         }
+
+        // Triangle pattern code
+        // ----------------------
+        // for (int x = 0; x < other.GetComponent<gateManager>().increaseAmount; x++)
+        // {
+        //     for (int y = x; y < 2 * (other.GetComponent<gateManager>().increaseAmount - x) - 1; y++)
+        //     {
+        //         _playerCount++;
+        //         GameObject tempClone = Instantiate(clonePlayer, transform);
+        //         tempClone.transform.localPosition = new Vector3(x, 0 ,y);
+        //         players.Add(tempClone);
+        //         tempClone.GetComponentInChildren<Animator>().SetTrigger("Run");
+        //     }
+        // }
     }
 }

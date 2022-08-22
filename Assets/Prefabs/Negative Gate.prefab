@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 4926959353865317363}
   m_Layer: 0
   m_Name: Negative Gate
-  m_TagString: Negative
+  m_TagString: Gate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -296,7 +296,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cddac53c82f6dae4ab3dfe6fbb6773ba, type: 2}
+  - {fileID: 2100000, guid: b478f21311c4f77458f1b89b3c8d5f4d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

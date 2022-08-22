@@ -9,6 +9,7 @@ public class gateManager : MonoBehaviour
 
     private void Start() 
     {
+        increaseAmount = Random.Range(-10 ,10);
         _count.text = increaseAmount.ToString();
     }
 }
