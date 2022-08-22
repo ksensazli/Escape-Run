@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class playerControl : MonoBehaviour
 {
     [SerializeField] private Rigidbody _rigidBody;
-    public GameObject clonePlayer;
+    [SerializeField] private GameObject clonePlayer;
     [SerializeField] private float _forwardSpeed;
     [SerializeField] private float _slideSpeed;
     [SerializeField] private float _lerpSpeed;
@@ -112,11 +112,11 @@ public class playerControl : MonoBehaviour
                 {
                     _playerCount++;
                     GameObject tempClone = Instantiate(clonePlayer, transform);
-                    tempClone.transform.localPosition = new Vector3(Random.Range(-3,3), 0f, Random.Range(0,-3f));
+                    tempClone.transform.localPosition = new Vector3(Random.Range(-2,2), 0f, Random.Range(0,-3f));
                     players.Add(tempClone);
+                    tempClone.GetComponentInChildren<Animator>().SetTrigger("Run");
                 }
             }
-
             _countInfo.text = _playerCount.ToString();
         }
 
