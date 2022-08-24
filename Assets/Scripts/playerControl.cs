@@ -80,6 +80,12 @@ public class playerControl : MonoBehaviour
         gameManager.onLevelCompleted?.Invoke();
         _countInfo.enabled = false;
         _animator.SetTrigger("Idle");
+        DOVirtual.DelayedCall(7f, () => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
+        for (int i = 0; i < _playerCount; i++)
+        {
+            GameObject dummy = players[i];
+            dummy.GetComponentInChildren<Animator>().SetTrigger("Idle");
+        }
     }
 
     private void movePlayer()

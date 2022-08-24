@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class gameManager : MonoBehaviour
 {
-    public static Action onLevelStart;
-    public static Action onEndReached;
-    public static Action onLevelCompleted;
     [SerializeField] private Rigidbody _rigidBody;
+    public static Action onLevelStart;
+    public static Action onLevelCompleted;
     private bool _isStart;
     private bool _isEnd;
 
