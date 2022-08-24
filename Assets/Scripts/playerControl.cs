@@ -51,10 +51,7 @@ public class playerControl : MonoBehaviour
 
         if (_playerCount <= 0)
         {
-            _isEndGame = true;
-            _countInfo.enabled = false;
-            _animator.SetTrigger("Dying");
-            DOVirtual.DelayedCall(4f, () => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
+            failedGame();
         }
     }
 
@@ -64,44 +61,60 @@ public class playerControl : MonoBehaviour
         _isStart = true;
     }
 
+    private void failedGame()
+    {
+        _isEndGame = true;
+        _countInfo.enabled = false;
+        _animator.SetTrigger("Dying");
+        DOVirtual.DelayedCall(4f, () => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
+        for (int i = 0; i < _playerCount; i++)
+        {
+            GameObject dummy = players[i];
+            dummy.GetComponentInChildren<Animator>().SetTrigger("Dying");
+        }
+    }
+
+    private void finishGame()
+    {
+        _isEndGame = true;
+        gameManager.onLevelCompleted?.Invoke();
+        _countInfo.enabled = false;
+        _animator.SetTrigger("Idle");
+    }
+
     private void movePlayer()
     {
-        if (_rigidBody.position.y >= -1f)
+        _forwardMoveAmount = Vector3.forward * _forwardSpeed;
+        Vector3 targetPosition = _rigidBody.transform.position + _forwardMoveAmount;
+
+        if (Input.GetMouseButton(0))
         {
-            _forwardMoveAmount = Vector3.forward * _forwardSpeed;
-            Vector3 targetPosition = _rigidBody.transform.position + _forwardMoveAmount;
-
-            if (Input.GetMouseButton(0))
-            {
-                targetPosition.x = 0;
-                targetPosition.x = _inputTouch.DragAmountX * _slideSpeed;
-            }
-
-            //Thanks to the Mathf.Clamp function, we determine the max and min points that our character can go on the X axis.
-            _xPos = Mathf.Clamp(targetPosition.x, -3.5f, 3.5f);
-
-            //Lerp is a function that allows us to go from one point to another on a linear scale at a given time.
-            Vector3 targetPositionLerp = new Vector3(Mathf.Lerp(_rigidBody.position.x, _xPos, Time.fixedDeltaTime * _lerpSpeed),
-            Mathf.Lerp(_rigidBody.position.y, targetPosition.y, Time.fixedDeltaTime * _lerpSpeed)
-            , Mathf.Lerp(_rigidBody.position.z, targetPosition.z, Time.fixedDeltaTime * _lerpSpeed));
-
-            _rigidBody.MovePosition(targetPositionLerp);
+            targetPosition.x = 0;
+            targetPosition.x = _inputTouch.DragAmountX * _slideSpeed;
         }
-        else
-        {
-            DOVirtual.DelayedCall(1.5f, () => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
-        }
+
+        //Thanks to the Mathf.Clamp function, we determine the max and min points that our character can go on the X axis.
+        _xPos = Mathf.Clamp(targetPosition.x, -3.5f, 3.5f);
+
+        //Lerp is a function that allows us to go from one point to another on a linear scale at a given time.
+        Vector3 targetPositionLerp = new Vector3(Mathf.Lerp(_rigidBody.position.x, _xPos, Time.fixedDeltaTime * _lerpSpeed),
+        Mathf.Lerp(_rigidBody.position.y, targetPosition.y, Time.fixedDeltaTime * _lerpSpeed),
+        Mathf.Lerp(_rigidBody.position.z, targetPosition.z, Time.fixedDeltaTime * _lerpSpeed));
+
+        _rigidBody.MovePosition(targetPositionLerp);
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "EndLine")
         {
-            _isStart = false;
-            _isEndGame = true;
-            gameManager.onLevelCompleted?.Invoke();
-            _countInfo.enabled = false;
-            _animator.SetTrigger("Idle");
+            finishGame();
+        }
+
+        if (other.tag == "Car")
+        {
+            failedGame();
         }
 
         if (other.tag == "Gate")
@@ -124,8 +137,10 @@ public class playerControl : MonoBehaviour
                 {
                     _playerCount--;
                     GameObject dummy = players[0];
+                    dummy.GetComponentInChildren<Animator>().SetTrigger("Dying");
                     players.RemoveAt(0);
-                    Destroy(dummy);
+                    dummy.transform.parent = null;
+                    DOVirtual.DelayedCall(3f, () => Destroy(dummy));
                 }
             }
 

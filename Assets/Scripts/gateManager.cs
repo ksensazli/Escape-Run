@@ -10,6 +10,10 @@ public class gateManager : MonoBehaviour
     private void Start() 
     {
         increaseAmount = Random.Range(-10 ,10);
+        if (increaseAmount == 0)
+        {
+            increaseAmount = 1;
+        }
         _count.text = increaseAmount.ToString();
     }
 }

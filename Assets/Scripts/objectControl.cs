@@ -6,11 +6,12 @@ public class objectControl : MonoBehaviour
 {
     [SerializeField] private Rigidbody _planeRigidBody;
     [SerializeField] private Vector3 _planeSpeed;
-    //[SerializeField] private Rigidbody _carRigidBody;
+    [SerializeField] private Rigidbody _carRigidBody;
+    [SerializeField] private Vector3 _carSpeed;
 
-    private void Update() 
+    private void FixedUpdate() 
     {
         _planeRigidBody.velocity = _planeSpeed;
-        //_carRigidBody.velocity = new Vector3(0,0,-5f);
+        _carRigidBody.velocity = _carSpeed;
     }
 }
