@@ -131,7 +131,7 @@ public class playerControl : MonoBehaviour
                 {
                     _playerCount++;
                     GameObject tempClone = Instantiate(clonePlayer, transform);
-                    tempClone.transform.localPosition = new Vector3(Random.Range(-2, 2), 0f, Random.Range(0, -3f));
+                    tempClone.transform.localPosition = new Vector3(Random.Range(-2, 2), 0, Random.Range(0,-3));
                     players.Add(tempClone);
                     tempClone.GetComponentInChildren<Animator>().SetTrigger("Run");
                 }
