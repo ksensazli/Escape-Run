@@ -40,6 +40,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 93968165595170260}
+  - component: {fileID: 3695288559912894165}
   - component: {fileID: 2123128860982342450}
   m_Layer: 0
   m_Name: Female
@@ -65,6 +66,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3695288559912894165
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722272628031528814}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.70920414, y: 1.8723879, z: 0.66766196}
+  m_Center: {x: -0.0051927865, y: 0.92431545, z: -0.04673502}
 --- !u!95 &2123128860982342450
 Animator:
   serializedVersion: 3

@@ -19,7 +19,6 @@ public class playerControl : MonoBehaviour
     private bool _isStart;
     private float _xPos;
     private int _playerCount = 1;
-
     private List<GameObject> players = new List<GameObject>();
 
     private void OnEnable()
@@ -66,7 +65,8 @@ public class playerControl : MonoBehaviour
         _isEndGame = true;
         _countInfo.enabled = false;
         _animator.SetTrigger("Dying");
-        DOVirtual.DelayedCall(4f, () => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
+        DOVirtual.DelayedCall(4f, () => SceneManager.LoadScene(1));
+
         for (int i = 0; i < _playerCount; i++)
         {
             GameObject dummy = players[i];
@@ -80,11 +80,12 @@ public class playerControl : MonoBehaviour
         gameManager.onLevelCompleted?.Invoke();
         _countInfo.enabled = false;
         _animator.SetTrigger("Idle");
-        DOVirtual.DelayedCall(7f, () => SceneManager.LoadScene(SceneManager.GetActiveScene().name));
+        DOVirtual.DelayedCall(7f, () => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1));
+
         for (int i = 0; i < _playerCount; i++)
         {
             GameObject dummy = players[i];
-            dummy.GetComponentInChildren<Animator>().SetTrigger("Idle");
+            DOVirtual.DelayedCall(1.2f, () => dummy.GetComponentInChildren<Animator>().SetTrigger("Victory"));
         }
     }
 
@@ -99,10 +100,8 @@ public class playerControl : MonoBehaviour
             targetPosition.x = _inputTouch.DragAmountX * _slideSpeed;
         }
 
-        //Thanks to the Mathf.Clamp function, we determine the max and min points that our character can go on the X axis.
         _xPos = Mathf.Clamp(targetPosition.x, -3.5f, 3.5f);
 
-        //Lerp is a function that allows us to go from one point to another on a linear scale at a given time.
         Vector3 targetPositionLerp = new Vector3(Mathf.Lerp(_rigidBody.position.x, _xPos, Time.fixedDeltaTime * _lerpSpeed),
         Mathf.Lerp(_rigidBody.position.y, targetPosition.y, Time.fixedDeltaTime * _lerpSpeed),
         Mathf.Lerp(_rigidBody.position.z, targetPosition.z, Time.fixedDeltaTime * _lerpSpeed));
@@ -121,6 +120,15 @@ public class playerControl : MonoBehaviour
         if (other.tag == "Car")
         {
             failedGame();
+            for (int i = 0; i < _playerCount; i++)
+            {
+                _playerCount--;
+                GameObject dummy = players[i];
+                dummy.GetComponentInChildren<Animator>().SetTrigger("Dying");
+                players.RemoveAt(0);
+                dummy.transform.parent = null;
+                DOVirtual.DelayedCall(3f, () => Destroy(dummy));
+            }
         }
 
         if (other.tag == "Gate")
@@ -131,7 +139,7 @@ public class playerControl : MonoBehaviour
                 {
                     _playerCount++;
                     GameObject tempClone = Instantiate(clonePlayer, transform);
-                    tempClone.transform.localPosition = new Vector3(Random.Range(-2, 2), 0, Random.Range(0,-3));
+                    tempClone.transform.localPosition = new Vector3(Random.Range(-2.5f, 2.5f), 0, Random.Range(-0.5f, -4));
                     players.Add(tempClone);
                     tempClone.GetComponentInChildren<Animator>().SetTrigger("Run");
                 }
