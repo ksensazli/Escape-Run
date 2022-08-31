@@ -15,7 +15,7 @@ public class canvasManager : MonoBehaviour
     void OnEnable()
     {
         gameManager.onLevelStart += startScreen;
-        gameManager.onLevelCompleted += endScreen;
+        gameManager.onEndLevel += endScreen;
         _image.DOAnchorPosX(-350, 1.5f).SetLoops(-1, LoopType.Yoyo);
         _levelCount.text = (SceneManager.GetActiveScene().buildIndex + 1).ToString();
     }
@@ -23,7 +23,7 @@ public class canvasManager : MonoBehaviour
     void OnDisable()
     {
         gameManager.onLevelStart -= startScreen;
-        gameManager.onLevelCompleted -= endScreen;
+        gameManager.onEndLevel -= endScreen;
     }
 
     private void startScreen()

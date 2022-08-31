@@ -3,10 +3,11 @@ using UnityEngine;
 
 public class gameManager : MonoBehaviour
 {
-    [SerializeField] private Rigidbody _rigidBody;
     public static Action onLevelStart;
     public static Action onLevelCompleted;
+    public static Action onEndLevel;
     private bool _isStart;
+    private bool _isComplete;
     private bool _isEnd;
 
     private void startLevel()
@@ -15,9 +16,15 @@ public class gameManager : MonoBehaviour
         _isStart = true;
     }
 
-    private void endLevel()
+    private void completeLevel()
     {
         onLevelCompleted?.Invoke();
+        _isComplete = true;
+    }
+
+    private void endLevel()
+    {
+        onEndLevel?.Invoke();
         _isEnd = true;
     }
 
@@ -34,11 +41,20 @@ public class gameManager : MonoBehaviour
 
         if (!_isEnd)
         {
-            if(_rigidBody.position == new Vector3(_rigidBody.position.x, _rigidBody.position.y, 119.7993f))
-            {
-                endLevel();
-            }
             return;
+        }
+
+        if(!_isComplete)
+        {
+            return;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other) 
+    {
+        if(other.tag == "EndLine")
+        {
+            completeLevel();
         }
     }
 }
