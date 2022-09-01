@@ -4,17 +4,14 @@ using UnityEngine;
 
 public class objectControl : MonoBehaviour
 {
-    [SerializeField] private List<Rigidbody> _plane;
+    [SerializeField] private Rigidbody _plane;
     [SerializeField] private Vector3 _planeSpeed;
-    [SerializeField] private List<Rigidbody> _car;
+    [SerializeField] private Rigidbody _car;
     [SerializeField] private Vector3 _carSpeed;
 
-    private void FixedUpdate() 
+    private void FixedUpdate()
     {
-        for(int i = 0; i < 10; i++)
-        {
-            _car[i].velocity = _carSpeed;
-            _plane[i].velocity = _planeSpeed;
-        }
+        _car.velocity = _carSpeed;
+        _plane.velocity = _planeSpeed;
     }
 }

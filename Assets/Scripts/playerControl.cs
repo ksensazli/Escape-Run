@@ -25,6 +25,7 @@ public class playerControl : MonoBehaviour
     private void OnEnable()
     {
         gameManager.onLevelStart += startGame;
+        gameManager.onEndLevel += nextLevel;
         _animator = GetComponentInChildren<Animator>();
         _inputTouch = GetComponent<inputTouch>();
         _countInfo.text = _playerCount.ToString();
@@ -33,6 +34,7 @@ public class playerControl : MonoBehaviour
     private void OnDisable()
     {
         gameManager.onLevelStart -= startGame;
+        gameManager.onEndLevel -= nextLevel;
     }
 
     private void FixedUpdate()
@@ -77,11 +79,15 @@ public class playerControl : MonoBehaviour
 
     private void finishGame()
     {
-        _isComplete = true;
         gameManager.onLevelCompleted?.Invoke();
+        _isComplete = true;
         _countInfo.enabled = false;
-        _animator.SetTrigger("Idle");
-        //DOVirtual.DelayedCall(7f, () => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1));
+    }
+
+    private void nextLevel()
+    {
+        DOVirtual.DelayedCall(1.5f, () => _animator.SetTrigger("Idle"));
+        DOVirtual.DelayedCall(7f, () => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex +1));
 
         for (int i = 0; i < _playerCount; i++)
         {
@@ -121,15 +127,6 @@ public class playerControl : MonoBehaviour
         if (other.tag == "Car")
         {
             failedGame();
-            for (int i = 0; i < _playerCount; i++)
-            {
-                _playerCount--;
-                GameObject dummy = players[i];
-                dummy.GetComponentInChildren<Animator>().SetTrigger("Dying");
-                players.RemoveAt(0);
-                dummy.transform.parent = null;
-                DOVirtual.DelayedCall(3f, () => Destroy(dummy));
-            }
         }
 
         if (other.tag == "Gate")
@@ -161,19 +158,5 @@ public class playerControl : MonoBehaviour
 
             _countInfo.text = _playerCount.ToString();
         }
-
-        // Triangle pattern code
-        // ----------------------
-        // for (int x = 0; x < other.GetComponent<gateManager>().increaseAmount; x++)
-        // {
-        //     for (int y = x; y < 2 * (other.GetComponent<gateManager>().increaseAmount - x) - 1; y++)
-        //     {
-        //         _playerCount++;
-        //         GameObject tempClone = Instantiate(clonePlayer, transform);
-        //         tempClone.transform.localPosition = new Vector3(x, 0 ,y);
-        //         players.Add(tempClone);
-        //         tempClone.GetComponentInChildren<Animator>().SetTrigger("Run");
-        //     }
-        // }
     }
 }
