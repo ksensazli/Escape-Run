@@ -30,9 +30,9 @@ public class arrowShoot : MonoBehaviour
             return;
         }
 
-        if (_arrow.transform.localPosition.z >= 209.6f)
+        if (_arrow.transform.localPosition.z >= 209.5f)
         {
-            gameManager.onEndLevel?.Invoke();
+            DOVirtual.DelayedCall(1f, () => gameManager.onEndLevel?.Invoke());
             _isShooting = false;
             _arrowRigidbody.velocity = Vector3.zero;
         }

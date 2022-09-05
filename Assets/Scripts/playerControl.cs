@@ -68,7 +68,7 @@ public class playerControl : MonoBehaviour
         _isComplete = true;
         _countInfo.enabled = false;
         _animator.SetTrigger("Dying");
-        DOVirtual.DelayedCall(4f, () => SceneManager.LoadScene(1));
+        DOVirtual.DelayedCall(4f, () => SceneManager.LoadScene(0));
 
         for (int i = 0; i < _playerCount; i++)
         {
@@ -92,7 +92,7 @@ public class playerControl : MonoBehaviour
         for (int i = 0; i < _playerCount; i++)
         {
             GameObject dummy = players[i];
-            DOVirtual.DelayedCall(1.2f, () => dummy.GetComponentInChildren<Animator>().SetTrigger("Victory"));
+            DOVirtual.DelayedCall(2f, () => dummy.GetComponentInChildren<Animator>().SetTrigger("Victory"));
         }
     }
 
