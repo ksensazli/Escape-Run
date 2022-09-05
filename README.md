@@ -7,9 +7,10 @@ Various third party plugins were used while developing the project. Some of thos
 -SkyBox Assets <br />
 -Some hypercasual low poly city assets <br />
 
-It is under development. Instantiated characters do not have animation yet.
+It is under development.
 
 # Screenshots
 ![](https://github.com/ksensazli/Escape-Run/blob/master/Screenshots/ss%20(2).jpg) <br />
 ![](https://github.com/ksensazli/Escape-Run/blob/master/Screenshots/ss%20(3).jpg) <br />
-![](https://github.com/ksensazli/Escape-Run/blob/master/Screenshots/ss%20(1).jpg)
+![](https://github.com/ksensazli/Escape-Run/blob/master/Screenshots/ss%20(1).jpg) <br />
+![](https://github.com/ksensazli/Escape-Run/blob/master/Screenshots/ss%20(4).jpg)
