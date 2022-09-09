@@ -30,12 +30,9 @@ public class gameManager : MonoBehaviour
 
     private void FixedUpdate() 
     {
-        if (!_isStart)
+        if (!_isStart && Input.GetMouseButtonDown(0))
         {
-            if(Input.GetMouseButtonDown(0))
-            {
-                startLevel();
-            }
+            startLevel();
             return;
         }
 

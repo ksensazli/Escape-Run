@@ -13,13 +13,13 @@ public class arrowShoot : MonoBehaviour
 
     private void OnEnable()
     {
-        gameManager.onLevelCompleted += shootArrow;
+        gameManager.onLevelCompleted += showArrow;
         gameManager.onEndLevel += playConfetties;
     }
 
     private void OnDisable()
     {
-        gameManager.onLevelCompleted -= shootArrow;
+        gameManager.onLevelCompleted -= showArrow;
         gameManager.onEndLevel -= playConfetties;
     }
 
@@ -37,6 +37,19 @@ public class arrowShoot : MonoBehaviour
             _arrowRigidbody.velocity = Vector3.zero;
         }
 
+        shootArrow();
+
+    }
+
+    private void showArrow()
+    {
+        DOVirtual.DelayedCall(1f, () => _arrow.SetActive(true));
+        DOVirtual.DelayedCall(1f, () => _target.SetActive(true));
+        _isShooting = true;
+    }
+
+    private void shootArrow()
+    {
         if (Input.GetMouseButtonDown(0))
         {
             m_touchTimeStart = Time.time;
@@ -51,13 +64,6 @@ public class arrowShoot : MonoBehaviour
             m_direction.x = Mathf.Clamp(m_direction.x, -1f, 1f);
             _arrowRigidbody.AddForce(-m_direction.x * throwForceInXAndY, -m_direction.y * throwForceInXAndY, throwForceInZ / m_timeInterval);
         }
-    }
-
-    private void shootArrow()
-    {
-        DOVirtual.DelayedCall(1f, () => _arrow.SetActive(true));
-        DOVirtual.DelayedCall(1f, () => _target.SetActive(true));
-        _isShooting = true;
     }
 
     private void playConfetties()
