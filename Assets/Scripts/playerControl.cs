@@ -15,11 +15,12 @@ public class playerControl : MonoBehaviour
     private Vector3 _forwardMoveAmount;
     private inputTouch _inputTouch;
     private Animator _animator;
-    private bool _isEndGame;
     private bool _isComplete;
     private bool _isStart;
     private float _xPos;
     private int _playerCount = 1;
+    private int _gameScore = 1;
+    private int _point;
     private List<GameObject> players = new List<GameObject>();
 
     private void OnEnable()
@@ -61,6 +62,13 @@ public class playerControl : MonoBehaviour
     {
         _animator.SetTrigger("Run");
         _isStart = true;
+    }
+
+    private void calculateScore()
+    {
+        _point = GetComponent<arrowShoot>().point;
+        _gameScore = _playerCount * _point;
+        Debug.Log("Game score is: " + _gameScore);
     }
 
     private void failedGame()
