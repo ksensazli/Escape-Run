@@ -10,12 +10,16 @@ public class arrowShoot : MonoBehaviour
     private Vector2 m_startPos, m_endPos, m_direction;
     private float m_touchTimeStart, m_touchTimeFinish, m_timeInterval;
     private bool _isShooting;
-    public int point;
+    private int _point;
+    private playerControl _playerControl;
+    private GameObject _playerScript;
+    private int _gameScore;
 
     private void OnEnable()
     {
         gameManager.onLevelCompleted += showArrow;
         gameManager.onEndLevel += playConfetties;
+        _playerScript = GameObject.Find("Player");
     }
 
     private void OnDisable()
@@ -38,10 +42,11 @@ public class arrowShoot : MonoBehaviour
             _arrowRigidbody.velocity = Vector3.zero;
 
             controlXPos();
+            calculateScore();
         }
 
         shootArrow();
-
+        
     }
 
     private void showArrow()
@@ -51,51 +56,57 @@ public class arrowShoot : MonoBehaviour
         _isShooting = true;
     }
 
+    private void calculateScore()
+    {
+        _gameScore = _playerScript.GetComponent<playerControl>().playerCount * _point;
+        Debug.Log("Game score is: " + _gameScore);
+    }
+
     private void controlXPos()
     {
         if(Mathf.Abs(_arrow.transform.localPosition.x) >= 0.058f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.114f)
         {
-            point = 9;
+            _point = 9;
         }
         else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.115f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.168f )
         {
-            point = 8;
+            _point = 8;
         }
         else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.169f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.225f )
         {
-            point = 7;
+            _point = 7;
         }
         else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.226f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.281f )
         {
-            point = 6;
+            _point = 6;
         }
         else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.282f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.337f )
         {
-            point = 5;
+            _point = 5;
         }
         else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.338f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.393f )
         {
-            point = 4;
+            _point = 4;
         }
         else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.394f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.450f )
         {
-            point = 3;
+            _point = 3;
         }
         else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.451 && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.507f )
         {
-            point = 2;
+            _point = 2;
         }
         else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.508f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.564f )
         {
-            point = 1;
+            _point = 1;
         }
         else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.565f)
         {
-            point = 0;
+            _point = 0;
         }
         else
         {
-            point = 10;
+            _point = 10;
         }
     }
 

@@ -9799,6 +9799,7 @@ MonoBehaviour:
   _confetties: {fileID: 1820796598}
   throwForceInZ: 50
   throwForceInXAndY: 5
+  point: 0
 --- !u!4 &1748607556
 Transform:
   m_ObjectHideFlags: 0

@@ -6422,6 +6422,7 @@ MonoBehaviour:
   _slideSpeed: 0.02
   _lerpSpeed: 2
   _countInfo: {fileID: 482926099}
+  playerCount: 1
 --- !u!65 &1112374087
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9799,7 +9800,6 @@ MonoBehaviour:
   _confetties: {fileID: 1820796598}
   throwForceInZ: 50
   throwForceInXAndY: 5
-  point: 0
 --- !u!4 &1748607556
 Transform:
   m_ObjectHideFlags: 0

@@ -18,9 +18,7 @@ public class playerControl : MonoBehaviour
     private bool _isComplete;
     private bool _isStart;
     private float _xPos;
-    private int _playerCount = 1;
-    private int _gameScore = 1;
-    private int _point;
+    public int playerCount = 1;
     private List<GameObject> players = new List<GameObject>();
 
     private void OnEnable()
@@ -29,7 +27,7 @@ public class playerControl : MonoBehaviour
         gameManager.onEndLevel += nextLevel;
         _animator = GetComponentInChildren<Animator>();
         _inputTouch = GetComponent<inputTouch>();
-        _countInfo.text = _playerCount.ToString();
+        _countInfo.text = playerCount.ToString();
     }
 
     private void OnDisable()
@@ -52,7 +50,7 @@ public class playerControl : MonoBehaviour
 
         movePlayer();
 
-        if (_playerCount <= 0)
+        if (playerCount <= 0)
         {
             failedGame();
         }
@@ -64,13 +62,6 @@ public class playerControl : MonoBehaviour
         _isStart = true;
     }
 
-    private void calculateScore()
-    {
-        _point = GetComponent<arrowShoot>().point;
-        _gameScore = _playerCount * _point;
-        Debug.Log("Game score is: " + _gameScore);
-    }
-
     private void failedGame()
     {
         _isComplete = true;
@@ -78,7 +69,7 @@ public class playerControl : MonoBehaviour
         _animator.SetTrigger("Dying");
         DOVirtual.DelayedCall(4f, () => SceneManager.LoadScene(0));
 
-        for (int i = 0; i < _playerCount; i++)
+        for (int i = 0; i < playerCount; i++)
         {
             GameObject dummy = players[i];
             dummy.GetComponentInChildren<Animator>().SetTrigger("Dying");
@@ -97,7 +88,7 @@ public class playerControl : MonoBehaviour
         DOVirtual.DelayedCall(1.5f, () => _animator.SetTrigger("Idle"));
         DOVirtual.DelayedCall(7f, () => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex +1));
 
-        for (int i = 0; i < _playerCount; i++)
+        for (int i = 0; i < playerCount; i++)
         {
             GameObject dummy = players[i];
             DOVirtual.DelayedCall(2f, () => dummy.GetComponentInChildren<Animator>().SetTrigger("Victory"));
@@ -143,7 +134,7 @@ public class playerControl : MonoBehaviour
             {
                 for (int i = 0; i < other.GetComponent<gateManager>().increaseAmount; i++)
                 {
-                    _playerCount++;
+                    playerCount++;
                     GameObject tempClone = Instantiate(clonePlayer, transform);
                     tempClone.transform.localPosition = new Vector3(Random.Range(-2.5f, 2.5f), 0, Random.Range(-0.5f, -4));
                     players.Add(tempClone);
@@ -155,7 +146,7 @@ public class playerControl : MonoBehaviour
             {
                 for (int i = 0; i < Mathf.Abs(other.GetComponent<gateManager>().increaseAmount); i++)
                 {
-                    _playerCount--;
+                    playerCount--;
                     GameObject dummy = players[0];
                     dummy.GetComponentInChildren<Animator>().SetTrigger("Dying");
                     players.RemoveAt(0);
@@ -164,7 +155,7 @@ public class playerControl : MonoBehaviour
                 }
             }
 
-            _countInfo.text = _playerCount.ToString();
+            _countInfo.text = playerCount.ToString();
         }
     }
 }
