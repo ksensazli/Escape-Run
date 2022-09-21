@@ -33,6 +33,6 @@ public class canvasManager : MonoBehaviour
 
     private void endScreen()
     {
-        _endScreen.SetActive(true);
+        DOVirtual.DelayedCall(1f, ()=> _endScreen.SetActive(true));
     }
 }

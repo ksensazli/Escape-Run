@@ -6,6 +6,7 @@ public class gameManager : MonoBehaviour
     public static Action onLevelStart;
     public static Action onLevelCompleted;
     public static Action onEndLevel;
+    [SerializeField] private GameObject _arrow;
     private bool _isStart;
     private bool _isComplete;
     private bool _isEnd;
@@ -44,6 +45,14 @@ public class gameManager : MonoBehaviour
         if(!_isComplete)
         {
             return;
+        }
+    }
+
+    private void hitTarget()
+    {
+        if (_arrow.transform.localPosition.z == 209.5f)
+        {
+            endLevel();
         }
     }
 
