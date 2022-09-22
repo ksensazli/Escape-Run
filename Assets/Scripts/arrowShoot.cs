@@ -6,7 +6,7 @@ public class arrowShoot : MonoBehaviour
     [SerializeField] private GameObject _arrow, _target;
     [SerializeField] private Rigidbody _arrowRigidbody;
     [SerializeField] private ParticleSystem _confetties;
-    [SerializeField] private GameObject  _gameScoreSc;
+    [SerializeField] private GameObject _gameScoreSc;
     [SerializeField] private float throwForceInZ = 50f, throwForceInXAndY = 1f;
     [SerializeField] private TMPro.TMP_Text _gameScoreText;
     private Vector2 m_startPos, m_endPos, m_direction;
@@ -22,7 +22,6 @@ public class arrowShoot : MonoBehaviour
         gameManager.onLevelCompleted += showArrow;
         gameManager.onEndLevel += playConfetties;
         _playerScript = GameObject.Find("Player");
-        
     }
 
     private void OnDisable()
