@@ -6,6 +6,7 @@ public class arrowShoot : MonoBehaviour
     [SerializeField] private GameObject _arrow, _target;
     [SerializeField] private Rigidbody _arrowRigidbody;
     [SerializeField] private ParticleSystem _confetties;
+    [SerializeField] private GameObject  _gameScoreSc;
     [SerializeField] private float throwForceInZ = 50f, throwForceInXAndY = 1f;
     [SerializeField] private TMPro.TMP_Text _gameScoreText;
     private Vector2 m_startPos, m_endPos, m_direction;
@@ -14,12 +15,14 @@ public class arrowShoot : MonoBehaviour
     private int _point;
     private GameObject _playerScript;
     private int _gameScore;
+    private int _generalScore;
 
     private void OnEnable()
     {
         gameManager.onLevelCompleted += showArrow;
         gameManager.onEndLevel += playConfetties;
         _playerScript = GameObject.Find("Player");
+        
     }
 
     private void OnDisable()
@@ -46,7 +49,7 @@ public class arrowShoot : MonoBehaviour
         }
 
         shootArrow();
-        
+
     }
 
     private void showArrow()
@@ -56,48 +59,41 @@ public class arrowShoot : MonoBehaviour
         _isShooting = true;
     }
 
-    private void calculateScore()
-    {
-        _gameScore = _playerScript.GetComponent<playerControl>().playerCount * _point;
-        Debug.Log("Game score is: " + _gameScore);
-        _gameScoreText.text = _gameScore.ToString();
-    }
-
     private void controlXPos()
     {
-        if(Mathf.Abs(_arrow.transform.localPosition.x) >= 0.058f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.114f)
+        if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.058f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.114f)
         {
             _point = 9;
         }
-        else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.115f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.168f )
+        else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.115f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.168f)
         {
             _point = 8;
         }
-        else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.169f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.225f )
+        else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.169f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.225f)
         {
             _point = 7;
         }
-        else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.226f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.281f )
+        else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.226f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.281f)
         {
             _point = 6;
         }
-        else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.282f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.337f )
+        else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.282f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.337f)
         {
             _point = 5;
         }
-        else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.338f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.393f )
+        else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.338f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.393f)
         {
             _point = 4;
         }
-        else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.394f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.450f )
+        else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.394f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.450f)
         {
             _point = 3;
         }
-        else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.451 && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.507f )
+        else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.451 && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.507f)
         {
             _point = 2;
         }
-        else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.508f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.564f )
+        else if (Mathf.Abs(_arrow.transform.localPosition.x) >= 0.508f && Mathf.Abs(_arrow.transform.localPosition.x) <= 0.564f)
         {
             _point = 1;
         }
@@ -109,6 +105,13 @@ public class arrowShoot : MonoBehaviour
         {
             _point = 10;
         }
+    }
+
+    private void calculateScore()
+    {
+        _gameScore = _playerScript.GetComponent<playerControl>().playerCount * _point;
+        _generalScore = _generalScore + _gameScore;
+        _gameScoreText.text = _generalScore.ToString();
     }
 
     private void shootArrow()

@@ -15,7 +15,7 @@ public class playerControl : MonoBehaviour
     private Vector3 _forwardMoveAmount;
     private inputTouch _inputTouch;
     private Animator _animator;
-    private bool _isComplete;
+    private bool _isStopped;
     private bool _isStart;
     private float _xPos;
     public int playerCount = 1;
@@ -43,7 +43,7 @@ public class playerControl : MonoBehaviour
             return;
         }
 
-        if (_isComplete)
+        if (_isStopped)
         {
             return;
         }
@@ -64,7 +64,7 @@ public class playerControl : MonoBehaviour
 
     private void failedGame()
     {
-        _isComplete = true;
+        _isStopped = true;
         _countInfo.enabled = false;
         _animator.SetTrigger("Dying");
         DOVirtual.DelayedCall(4f, () => SceneManager.LoadScene(0));
@@ -79,7 +79,7 @@ public class playerControl : MonoBehaviour
     private void finishGame()
     {
         gameManager.onLevelCompleted?.Invoke();
-        _isComplete = true;
+        _isStopped = true;
         _countInfo.enabled = false;
     }
 
