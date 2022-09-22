@@ -37,12 +37,7 @@ public class gameManager : MonoBehaviour
             return;
         }
 
-        if (!_isEnd)
-        {
-            return;
-        }
-
-        if(!_isComplete)
+        if (!_isEnd || !_isComplete)
         {
             return;
         }
@@ -50,7 +45,7 @@ public class gameManager : MonoBehaviour
 
     private void hitTarget()
     {
-        if (_arrow.transform.localPosition.z == 209.5f)
+        if (_arrow.transform.position.z >= 209)
         {
             endLevel();
         }

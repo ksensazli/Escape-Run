@@ -8,8 +8,8 @@ public class canvasManager : MonoBehaviour
 {
     [SerializeField] private GameObject _startScreen;
     [SerializeField] private GameObject _endScreen;
+    [SerializeField] private GameObject _gameScoreScreen;
     [SerializeField] private RectTransform _image;
-    [SerializeField] private TMPro.TMP_Text _gameOverText;
     [SerializeField] private TMPro.TMP_Text _levelCount;
 
     void OnEnable()
@@ -33,6 +33,8 @@ public class canvasManager : MonoBehaviour
 
     private void endScreen()
     {
-        DOVirtual.DelayedCall(1f, ()=> _endScreen.SetActive(true));
+        Debug.Log("Enter the endScreen");
+        _endScreen.SetActive(true);
+        _gameScoreScreen.SetActive(true);
     }
 }

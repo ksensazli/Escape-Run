@@ -7,11 +7,11 @@ public class arrowShoot : MonoBehaviour
     [SerializeField] private Rigidbody _arrowRigidbody;
     [SerializeField] private ParticleSystem _confetties;
     [SerializeField] private float throwForceInZ = 50f, throwForceInXAndY = 1f;
+    [SerializeField] private TMPro.TMP_Text _gameScoreText;
     private Vector2 m_startPos, m_endPos, m_direction;
     private float m_touchTimeStart, m_touchTimeFinish, m_timeInterval;
     private bool _isShooting;
     private int _point;
-    private playerControl _playerControl;
     private GameObject _playerScript;
     private int _gameScore;
 
@@ -60,6 +60,7 @@ public class arrowShoot : MonoBehaviour
     {
         _gameScore = _playerScript.GetComponent<playerControl>().playerCount * _point;
         Debug.Log("Game score is: " + _gameScore);
+        _gameScoreText.text = _gameScore.ToString();
     }
 
     private void controlXPos()
